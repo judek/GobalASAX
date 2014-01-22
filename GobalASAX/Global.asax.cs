@@ -103,55 +103,116 @@ namespace GobalASAX
          
             List<string> SessionTweets = Session["Tweets"] as List<string>;
 
-            if (null == SessionTweets)
-                return;
+            //if (null == SessionTweets)
+                //return;
             
-            string sPath = Session["TraceFilePath"] as string;
-            //string SessionGUID = "UNKNOWN";
-            //string temp = Session["GUID"] as string;
-            //if (temp != null)
-            //    SessionGUID = temp.Clone() as string;
-           
-          
-            //try
-            //{
-            //    if (null != sPath)
-            //        File.AppendAllText(sPath, "\r\n"+ DateTime.Now.ToLongTimeString() + " Session " + SessionGUID + " Ended");
-            //}
-            //catch { }
+            //string sPath = Session["TraceFilePath"] as string;
 
-          
-            foreach (string tweet in SessionTweets)
+
+            if (null != SessionTweets)
             {
-                #region SendTweet
+                foreach (string tweet in SessionTweets)
+                {
+                    #region SendTweet
 
-                using (MailMessage tweetMessage = new MailMessage())
+                    try
+                    {
+                        SendEmail(tweet, new string[] { "tweet@tweetymail.com", "judek@yahoo.com" });
+                    }
+                    catch
+                    {
+                        break;// If one message fails chances are the all will fail
+                    }
+
+
+                    //using (MailMessage tweetMessage = new MailMessage())
+                    //{
+                    //    try
+                    //    {
+                    //        tweetMessage.Body = tweet;
+                    //        tweetMessage.To.Add("tweet@tweetymail.com");
+                    //        tweetMessage.To.Add("judek@yahoo.com");
+                    //        SendMailMessage(tweetMessage);
+                    //    }
+                    //    catch (Exception exp)
+                    //    {
+                    //        try
+                    //        {
+                    //            if (null != sPath)
+                    //            {
+                    //                File.AppendAllText(sPath, "\r\n Send Mail Error:" + DateTime.Now + exp.Message + "\r\n" + exp.StackTrace);
+                    //                File.AppendAllText(sPath, "\r\n Message Body:\r\n" + tweetMessage);
+                    //                File.AppendAllText(sPath, "\r\n Abborting...");
+                    //            }
+                    //            break;//If one mail breaks the all probably will so stop trying
+                    //        }
+                    //        catch {break; }
+                    //    }
+
+                    //}
+
+                    #endregion
+                }
+            }
+
+            List<string> sessionNotifications = Session["Notifications"] as List<string>;
+
+
+
+            if (null != sessionNotifications)
+            {
+                foreach (string notification in sessionNotifications)
                 {
                     try
                     {
-                        tweetMessage.Body = tweet;
-                        tweetMessage.To.Add("tweet@tweetymail.com");
-                        tweetMessage.To.Add("judek@yahoo.com");
-                        SendMailMessage(tweetMessage);
+                        SendEmail(notification, new string[] { "admin@rivervalleycommunity.org", "judek@yahoo.com" });
                     }
-                    catch (Exception exp)
+                    catch
                     {
-                        try
-                        {
-                            if (null != sPath)
-                            {
-                                File.AppendAllText(sPath, "\r\n Send Mail Error:" + DateTime.Now + exp.Message + "\r\n" + exp.StackTrace);
-                                File.AppendAllText(sPath, "\r\n Message Body:\r\n" + tweetMessage);
-                                File.AppendAllText(sPath, "\r\n Abborting...");
-                            }
-                            break;//If one mail breaks the all probably will so stop trying
-                        }
-                        catch {break; }
+                        break;// If one message fails chances are the all will fail
                     }
-       
+                }
+            }
+
+
+        }
+
+        //SendTweet
+        void SendEmail(string MessageBody, string[] sToAddresses)
+        {
+            string sPath = Session["TraceFilePath"] as string;
+
+            using (MailMessage mailMessage = new MailMessage())
+            {
+                try
+                {
+                    mailMessage.Body = MessageBody;
+                    foreach (string sToAddress in sToAddresses)
+                    {
+                        mailMessage.To.Add(sToAddress);
+                    }
+                    
+                    //tweetMessage.To.Add("tweet@tweetymail.com");
+                    //tweetMessage.To.Add("judek@yahoo.com");
+
+
+                    SendMailMessage(mailMessage);
+                }
+                catch (Exception exp)
+                {
+                    try
+                    {
+                        if (null != sPath)
+                        {
+                            File.AppendAllText(sPath, "\r\n Send Mail Error:" + DateTime.Now + exp.Message + "\r\n" + exp.StackTrace);
+                            File.AppendAllText(sPath, "\r\n Message Body:\r\n" + mailMessage);
+                            File.AppendAllText(sPath, "\r\n Abborting...");
+                        }
+                        throw exp;
+                    }
+                    catch (Exception exp2) { throw exp2; }
                 }
 
-                #endregion
             }
         }
 

@@ -27,3 +27,19 @@ System.Net.Mail.MailMessage
  Message Body:
 System.Net.Mail.MailMessage
  Abborting...
+ Send Mail Error:1/22/2014 8:22:07 AMFailure sending mail.
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at GobalASAX.Global.SendMailMessage(MailMessage mail, String sFrom, String sUserName, String sPassword) in C:\Users\judek\vs\Projects\GobalASAX\GobalASAX\Global.asax.cs:line 40
+   at GobalASAX.Global.SendMailMessage(MailMessage mail) in C:\Users\judek\vs\Projects\GobalASAX\GobalASAX\Global.asax.cs:line 46
+   at GobalASAX.Global.SendEmail(String MessageBody, String[] sToAddresses) in C:\Users\judek\vs\Projects\GobalASAX\GobalASAX\Global.asax.cs:line 195
+ Message Body:
+System.Net.Mail.MailMessage
+ Abborting...
+ Send Mail Error:1/22/2014 8:31:41 AMFailure sending mail.
+   at System.Net.Mail.SmtpClient.Send(MailMessage message)
+   at GobalASAX.Global.SendMailMessage(MailMessage mail, String sFrom, String sUserName, String sPassword) in C:\Users\judek\vs\Projects\GobalASAX\GobalASAX\Global.asax.cs:line 40
+   at GobalASAX.Global.SendMailMessage(MailMessage mail) in C:\Users\judek\vs\Projects\GobalASAX\GobalASAX\Global.asax.cs:line 46
+   at GobalASAX.Global.SendEmail(String MessageBody, String[] sToAddresses) in C:\Users\judek\vs\Projects\GobalASAX\GobalASAX\Global.asax.cs:line 199
+ Message Body:
+System.Net.Mail.MailMessage
+ Abborting...
