@@ -16,12 +16,12 @@ namespace GobalASAX
     {
 
         //System.Timers.Timer _timer = null;
-        
-        public static void SendMailMessage(MailMessage mail)
+
+        public static void SendMailMessage(MailMessage mail, string sFrom, string sUserName, string sPassword)
         {
             //set the addresses
             if (null == mail.From)
-                mail.From = new MailAddress("\"River Valley Community Church\" <2bc17e6f292e@rivervalleycommunity.org>");
+                mail.From = new MailAddress(sFrom);
             //mail.From = new MailAddress(sFrom);
 
             //send the message
@@ -29,16 +29,22 @@ namespace GobalASAX
 
             System.Net.NetworkCredential SmtpUser;
             SmtpUser = new System.Net.NetworkCredential();
-            SmtpUser.UserName = "2bc17e6f292e@rivervalleycommunity.org";
-            SmtpUser.Password = "Myza2828";
+            SmtpUser.UserName = sUserName;
+            SmtpUser.Password = sPassword;
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
 
             smtp.UseDefaultCredentials = false;
             smtp.Credentials = SmtpUser;
 
-           
-            smtp.Send(mail);
 
+            smtp.Send(mail);
+        }
+        
+        
+        public static void SendMailMessage(MailMessage mail)
+        {
+            SendMailMessage(mail, "\"River Valley Community Church\" <2bc17e6f292e@rivervalleycommunity.org>",
+                "2bc17e6f292e@rivervalleycommunity.org", "Myza2828");
         }
 
         public static void _timer_Elapsed(object sender, ElapsedEventArgs e)
