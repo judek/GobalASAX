@@ -117,7 +117,7 @@ namespace GobalASAX
 
                     try
                     {
-                        SendEmail(tweet, new string[] { "tweet@tweetymail.com", "judek@yahoo.com" });
+                        SendEmail(null, tweet, new string[] { "tweet@tweetymail.com", "judek@yahoo.com" });
                     }
                     catch
                     {
@@ -165,7 +165,7 @@ namespace GobalASAX
                 {
                     try
                     {
-                        SendEmail(notification, new string[] { "admin@rivervalleycommunity.org", "judek@yahoo.com" });
+                        SendEmail("DO NOT REPLY - Automatic Message", notification, new string[] { "admin@rivervalleycommunity.org", "judek@yahoo.com" });
                     }
                     catch
                     {
@@ -178,7 +178,7 @@ namespace GobalASAX
         }
 
         //SendTweet
-        void SendEmail(string MessageBody, string[] sToAddresses)
+        void SendEmail(string MessageSuubject, string MessageBody, string[] sToAddresses)
         {
             string sPath = Session["TraceFilePath"] as string;
 
@@ -186,7 +186,13 @@ namespace GobalASAX
             {
                 try
                 {
-                    mailMessage.Body = MessageBody;
+
+                    if (false == string.IsNullOrEmpty(MessageSuubject))
+                        mailMessage.Subject = MessageSuubject;
+
+                    if (false == string.IsNullOrEmpty(MessageBody))
+                        mailMessage.Body = MessageBody;
+                    
                     foreach (string sToAddress in sToAddresses)
                     {
                         mailMessage.To.Add(sToAddress);
