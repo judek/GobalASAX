@@ -2,5 +2,6 @@ bin/
 obj/
 *.suo
 *.user
+Global.asax.Trace.txt
 
 
